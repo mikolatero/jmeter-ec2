@@ -604,7 +604,7 @@ function runsetup() {
   	done
 
   	# write update to screen - removed 23/04/2012
-  	# echo "...$i) ${threadgroup_names[$i]} has ${threadgroup_threadcounts[$i]} thread(s), to be distributed over $instance_count instance(s)"
+  	echo "...$i) ${threadgroup_names[$i]} has ${threadgroup_threadcounts[$i]} thread(s), to be distributed over $instance_count instance(s)"
 
   	unset threads
   done
@@ -920,8 +920,8 @@ function runcleanup() {
     sed '/^0,0,Error:/d' $project_home/$project-$DATETIME-noblanks.jtl >> $project_home/$project-$DATETIME-complete.jtl
 
     # Calclulate test duration
-    start_time=$(head -1 $project_home/$project-$DATETIME-complete.jtl | cut -d',' -f1)
-    end_time=$(tail -1 $project_home/$project-$DATETIME-complete.jtl | cut -d',' -f1)
+    start_time=$(cat $project_home/$project-$DATETIME-complete.jtl | grep 'https:' | tail -1 | cut -d',' -f1)
+    end_time=$(cat $project_home/$project-$DATETIME-complete.jtl | grep 'https:' | head -1 | cut -d',' -f1)
     duration=$(echo "$end_time-$start_time" | bc)
     if ! [ "$duration" -gt 0 ] ; then
       duration=0;

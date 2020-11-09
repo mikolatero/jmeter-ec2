@@ -11,10 +11,11 @@ function install_jmeter_plugins() {
 }
 
 function install_java() {
-    echo "Updating apt-get..."
-    sudo apt-get -qqy update
+    # Tip: Don't use yum update, change AMI_ID instead.
+    echo "Updating yum repos"
+    sudo yum repolist
     echo "Installing java..."
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -qqy install openjdk-7-jre
+    sudo yum install java-1.8.0-openjdk wget -y
     echo "Java installed"
 }
 

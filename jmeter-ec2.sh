@@ -727,6 +727,16 @@ function runsetup() {
   for host in ${hosts[@]} ; do
     echo $host
   done
+  
+  echo "changing fs.limit to avoid 'too many open files'"
+  for counter in ${!hosts[@]} ; do
+      ( ssh -nq -o StrictHostKeyChecking=no \
+      -p $REMOTE_PORT \
+      -i "$PEM_PATH/$PEM_FILE" $USER@${hosts[$counter]} \
+       sudo sysctl -w fs.file-max=21474835 ) &
+  done
+
+  
   for counter in ${!hosts[@]} ; do
       ( ssh -nq -o StrictHostKeyChecking=no \
       -p $REMOTE_PORT \
